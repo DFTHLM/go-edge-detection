@@ -16,4 +16,5 @@ Input:
 <img src="https://github.com/DFTHLM/go-edge-detection/blob/main/examples/cathedral_input.jpg"/>
 
 Output:
+
 <img src="https://github.com/DFTHLM/go-edge-detection/blob/main/examples/cathedral_output.jpg"/>
