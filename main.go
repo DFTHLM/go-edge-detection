@@ -4,7 +4,31 @@ import (
     "image/jpeg"
     "os"
     "fmt"
+    "math"
 )
+
+func makeGaussianKernel(radius float64) []float64 {
+    width := math.Ceil(radius)
+    kernel := make([]float64, int(width) * 2 + 1)
+
+    sigma := radius / 3.0
+    sum := 0.0
+
+    base := 1.0 / (math.Sqrt(2.0 * math.Pi) * sigma)
+    coeff := 2 * sigma * sigma
+
+    for i := -int(width); i <= int(width); i++ {
+        value := base * math.Exp(-float64(i*i) / coeff)
+        kernel[i + int(width)] = value
+        sum += value
+    }
+
+    for i := range kernel {
+        kernel[i] /= sum
+    }
+
+    return kernel
+}
 
 func parseArgs() (string, string) {
     if len(os.Args) != 3 {
@@ -31,7 +55,7 @@ func main() {
     }
 
     grayImg := Grayscale(img)
-    kernel := []float64{0.0003,	0.0033,	0.0237,	0.0970,	0.2260,	0.2995,	0.2260,	0.0970,	0.0237,	0.0033,	0.0003}
+    kernel := makeGaussianKernel(5.0)
     grayImg = GaussianFilter(grayImg, kernel, true)
     grayImg = GaussianFilter(grayImg, kernel, false)
 
