@@ -64,8 +64,7 @@ func main() {
     Ky := [][]float64{{-1.0, -2.0, -1.0}, {0.0, 0.0, 0.0}, {1.0, 2.0, 1.0}}
     Gy := ApplyKernel(grayImg, Ky)
 
-    G := GetMagnitude(Gx, Gy)
-    direction := CalculateGradientDirection(Gx, Gy)
+    direction, G := CalculateGradientValues(Gx, Gy)
 
     suppressed := NonMaxSuppression(G, direction)
 

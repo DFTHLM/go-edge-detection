@@ -120,34 +120,15 @@ func ApplyKernel(img *image.Gray, kernel [][]float64) *image.Gray {
     return out
 }
 
-func GetMagnitude(Gx, Gy *image.Gray) (*image.Gray) {
+func CalculateGradientValues(Gx, Gy *image.Gray) ([][]float64, *image.Gray) {
     bounds := Gx.Bounds()
     width := bounds.Dx()
     height := bounds.Dy()
-    out := image.NewGray(bounds)
+    outMag := image.NewGray(bounds)
 
-    for y := range height {
-        for x := range width {
-
-            gx := float64(Gx.GrayAt(x, y).Y)
-            gy := float64(Gy.GrayAt(x, y).Y)
-
-            mag := uint8(math.Min(math.Sqrt(float64(gx*gx+gy*gy)), 255))
-            out.SetGray(x, y, color.Gray{Y: mag})
-        }
-    }
-
-    return out
-}
-
-func CalculateGradientDirection(Gx, Gy *image.Gray) [][]float64 {
-    bounds := Gx.Bounds()
-    width := bounds.Dx()
-    height := bounds.Dy()
-
-    out := make([][]float64, height)
-    for i := range out {
-        out[i] = make([]float64, width)
+    outDir := make([][]float64, height)
+    for i := range outDir {
+        outDir[i] = make([]float64, width)
     }
 
     for y := range height {
@@ -157,7 +138,7 @@ func CalculateGradientDirection(Gx, Gy *image.Gray) [][]float64 {
             gy := float64(Gy.GrayAt(x, y).Y)
 
             if gx == 0 && gy == 0 {
-                out[y][x] = 0
+                outDir[y][x] = 0
                 continue
             }
 
@@ -165,11 +146,14 @@ func CalculateGradientDirection(Gx, Gy *image.Gray) [][]float64 {
             if dir < 0 {
                 dir += 180
             }
-            out[y][x] = dir
+            outDir[y][x] = dir
+
+            mag := uint8(math.Min(math.Sqrt(float64(gx*gx+gy*gy)), 255))
+            outMag.SetGray(x, y, color.Gray{Y: mag})
         }
     }
 
-    return out
+    return outDir, outMag
 }
 
 func NonMaxSuppression(G *image.Gray, direction [][]float64) *image.Gray {
