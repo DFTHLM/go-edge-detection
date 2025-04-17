@@ -9,3 +9,11 @@ git clone https://github.com/DFTHLM/go-edge-detection.git
 cd go-edge-detection
 go run main.go process_image.go path/to/input.jpg path/to/output.jpg
 ```
+
+## Example
+Input:
+
+<img src="https://github.com/DFTHLM/go-edge-detection/blob/main/examples/cathedral_input.jpg"/>
+
+Output:
+<img src="https://github.com/DFTHLM/go-edge-detection/blob/main/examples/cathedral_output.jpg"/>
