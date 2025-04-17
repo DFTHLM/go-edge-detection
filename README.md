@@ -11,7 +11,7 @@ go run main.go process_image.go path/to/input.jpg path/to/output.jpg
 ```
 
 ## Example
-Input: (photo by [Marrak74 on pixabay](https://pixabay.com/photos/building-cathedral-architecture-9048827/))
+Input (photo by [Marrak74 on pixabay](https://pixabay.com/photos/building-cathedral-architecture-9048827/)):
 
 <img src="https://github.com/DFTHLM/go-edge-detection/blob/main/examples/cathedral_input.jpg"/>
 
